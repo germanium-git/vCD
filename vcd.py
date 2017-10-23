@@ -350,7 +350,7 @@ class vCD:
                 #print (child.tag, child.attrib)
                 if re.search('vimServerReferences', child.tag):
                     #print('\n')
-                    if re.search('api/admin/extension/vimServer/', child.attrib['href']:
+                    if re.search('api/admin/extension/vimServer/', child.attrib['href']):
                         uuid = child.attrib['href'].split('/')[-1]
 
 
