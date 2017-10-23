@@ -1,0 +1,23 @@
+<OrgVdcNetwork
+name="SRV_172.16.5.0m24"
+xmlns="http://www.vmware.com/vcloud/v1.5">
+<Description></Description>
+<Configuration>
+<IpScopes>
+<IpScope>
+<IsInherited>false</IsInherited>
+<Gateway>172.16.5.1</Gateway>
+<Netmask>{{netmask}}</Netmask>
+<IpRanges>
+<IpRange>
+<StartAddress>{{StartAddress}}</StartAddress>
+<EndAddress>{{EndAddress}}</EndAddress>
+</IpRange>
+</IpRanges>
+</IpScope>
+</IpScopes>
+<FenceMode>natRouted</FenceMode>
+</Configuration>
+<EdgeGateway href="https://test-portal.vmware.onecloud.tieto.com/api/admin/edgeGateway/{{edge}}" />
+<IsShared>true</IsShared>
+</OrgVdcNetwork>

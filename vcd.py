@@ -332,3 +332,37 @@ class vCD:
             print('connect - JSON format error: {}'.format(e))
 
         return vdcnetworks
+
+
+
+    def getvcenter(self):
+        """
+        :param:
+        :return:    vcenter uuid
+        """
+
+        try:
+            vimServerReferences = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServerReferences',
+                             verify=False, headers=self.headers)
+
+            root = ET.fromstring(vimServerReferences.text)
+            for child in root:
+                #print (child.tag, child.attrib)
+                if re.search('vimServerReferences', child.tag):
+                    #print('\n')
+                    if re.search('api/admin/extension/vimServer/', child.attrib['href']:
+                        uuid = child.attrib['href'].split('/')[-1]
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return uuid
