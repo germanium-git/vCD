@@ -170,8 +170,8 @@ class vCD:
             for child in root:
                 #print (child.tag, child.attrib)
                 if re.search('ExternalNetworkReference', child.tag):
-                    print('\n')
-                    # print edgeGateway name
+                    #print('\n')
+                    #print edgeGateway name
                     extnets[child.attrib['name']] = child.attrib['href'].split('/')[-1]
 
 
