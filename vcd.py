@@ -380,9 +380,9 @@ class vCD:
                                     + VimServerReference + '/networks', verify=False, headers=self.headers)
 
 
-            netw_dir = xmltodict.parse(networks.text, xml_attribs=True)
+            nw_dir = xmltodict.parse(networks.text, xml_attribs=True)
 
-            for i in range(len(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'])):
+            for i in range(len(nw_dir['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'])):
                 if (networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']
                     ['vmext:VimObjectRef'][i]['vmext:VimObjectType']) == 'DV_PORTGROUP':
                     pgroups.append(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'][i]['vmext:MoRef'])
