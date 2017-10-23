@@ -381,7 +381,7 @@ class vCD:
 
 
             netw_dir = xmltodict.parse(networks.text)
-            print(netw_dir)
+            #print(netw_dir)
 
 
         except requests.exceptions.Timeout as e:
@@ -395,6 +395,7 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
+        return netw_dir
 
 
 
