@@ -348,7 +348,7 @@ class vCD:
             root = ET.fromstring(vimServerReferences.text)
             for child in root:
                 print (child.tag, child.attrib)
-                if re.search('vimServerReference', child.tag):
+                if re.search('VimServerReference', child.tag):
                     #print('\n')
                     if re.search('api/admin/extension/vimServer/', child.attrib['href']):
                         uuid = (child.attrib['name'], child.attrib['href'].split('/')[-1])
