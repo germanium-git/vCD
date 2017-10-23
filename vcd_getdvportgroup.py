@@ -28,13 +28,11 @@ myvcd = vCD(*cred)
 myvcd.gettoken()
 vcenter = myvcd.getvcenter()
 
-networks = myvcd.getportgroups(vcenter['VimServerReference'])
+# Retrieve all portgroups
+port_groups = myvcd.getportgroups(vcenter['VimServerReference'])
 
-#pprint(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs'])
+pprint(port_groups)
 
-for i in networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']:
-    print(networks[i]['vmext:VimServerRef']['vmext:MoRef'])
-    print(networks[i]['vmext:VimServerRef']['vmext:VimObjectType'])
 
 
 

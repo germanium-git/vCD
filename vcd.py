@@ -372,16 +372,20 @@ class vCD:
     def getportgroups(self, VimServerReference):
         """
         :param:
-        :return:    vdc networks
+        :return:    list of portgroups
         """
-        pgroups = {}
+        pgroups = []
         try:
             networks = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServer/'
                                     + VimServerReference + '/networks', verify=False, headers=self.headers)
 
 
             netw_dir = xmltodict.parse(networks.text, xml_attribs=True)
-            #print(netw_dir)
+
+            for i in range(len(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'])):
+                if (networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']
+                    ['vmext:VimObjectRef'][i]['vmext:VimObjectType']) == 'DV_PORTGROUP':
+                    pgroups.append(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'][i]['vmext:MoRef'])
 
 
         except requests.exceptions.Timeout as e:
@@ -395,7 +399,7 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
-        return netw_dir
+        return pgroups
 
 
 
