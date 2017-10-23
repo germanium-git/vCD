@@ -88,7 +88,7 @@ def credentials(inputfile):
 
     vcd_ip = raw_input("vCD IP [%s]: " % vcd_cred['vcd_ip']) or vcd_cred['vcd_ip']
     account = raw_input("Account [%s]: " % vcd_cred['account']) or vcd_cred['account']
-    if 'passw' in _cred:
+    if 'passw' in vcd_cred:
         passw = getpass.getpass(prompt='Use the stored password or enter new one: ', stream=None) or vcd_cred['passw']
     else:
         passw = 'None'
