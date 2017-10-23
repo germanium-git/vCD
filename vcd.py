@@ -167,8 +167,8 @@ class vCD:
 
             root = ET.fromstring(extnw_list.text)
             for child in root:
-                print (child.tag, child.attrib)
-                if re.search('vmext:ExternalNetworkReference', child.tag):
+                #print (child.tag, child.attrib)
+                if re.search('ExternalNetworkReference', child.tag):
                     print('\n')
                     # print edgeGateway name
                     print child.attrib['name']
