@@ -50,5 +50,5 @@ print('Retrieving vDC Networks -------------')
 vdcnets = {}
 for org in vdc_dir:
     for vdc in vdc_dir[org].values():
-        vdcnets = vdcnets + myvcd.getvdcnetworks(vdc)
+        vdcnets.update(myvcd.getvdcnetworks(vdc))
 pprint(vdcnets)
