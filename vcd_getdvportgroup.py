@@ -26,8 +26,8 @@ myvcd = vCD(*cred)
 
 # Get vCenter UUID
 myvcd.gettoken()
-VimServerReference = myvcd.getvcenter()
+vcenter = myvcd.getvcenter()
 
-myvcd.getportgroups(VimServerReference)
+myvcd.getportgroups(vcenter['VimServerReference'])
 
 
