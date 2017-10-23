@@ -32,7 +32,7 @@ pprint(myvcd.getedges())
 # Get all organizations
 print('Retrieving organisation list -------')
 orgs = myvcd.getorgs()
-pprint(org)
+pprint(orgs)
 
 
 # Get vDCs
