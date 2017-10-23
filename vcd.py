@@ -340,18 +340,18 @@ class vCD:
         :param:
         :return:    vcenter uuid
         """
-        uuid = 'None'
+        vcenter = {}
         try:
             vimServerReferences = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServerReferences',
                              verify=False, headers=self.headers)
 
             root = ET.fromstring(vimServerReferences.text)
             for child in root:
-                print (child.tag, child.attrib)
+                #print (child.tag, child.attrib)
                 if re.search('VimServerReference', child.tag):
-                    #print('\n')
                     if re.search('api/admin/extension/vimServer/', child.attrib['href']):
-                        uuid = (child.attrib['name'], child.attrib['href'].split('/')[-1])
+                        vcenter['VimServerReference'] = child.attrib['href'].split('/')[-1]
+                        vcenter['name'] = child.attrib['name']
 
 
         except requests.exceptions.Timeout as e:
@@ -365,4 +365,4 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
-        return uuid
+        return vcenter
