@@ -192,22 +192,25 @@ class vCD:
     def getedges(self):
         """
         :param:
-        :return:    token
+        :return:    directory of edges
         """
+        print('Retrieving the list of edges -----------')
+        edges = {}
         try:
             edge_list = requests.get('https://' + self.vcd_ip + '/api/query?type=edgeGateway&format=records',
                              verify=False, headers=self.headers)
 
             root = ET.fromstring(edge_list.text)
             for child in root:
-                print (child.tag, child.attrib)
+                #print (child.tag, child.attrib)
                 if re.search('EdgeGatewayRecord', child.tag):
-                    print('\n')
-                    print child.attrib['name']
+                    #print('\n')
+                    edges[child.attrib['name']] = {'vdc': child.attrib['vdc'].split('/')[-1],
+                                                   'uuid': child.attrib['href'].split('/')[-1]}
                     # print vDC
-                    print child.attrib['vdc'].split('/')[-1]
+                    #print child.attrib['vdc'].split('/')[-1]
                     # print edgeGateway href
-                    print child.attrib['href'].split('/')[-1]
+                    #print child.attrib['href'].split('/')[-1]
 
 
         except requests.exceptions.Timeout as e:
@@ -221,7 +224,7 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
-
+        return edges
 
 
     def getorgs(self):
