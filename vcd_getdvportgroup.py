@@ -28,4 +28,6 @@ myvcd = vCD(*cred)
 myvcd.gettoken()
 VimServerReference = myvcd.getvcenter()
 
+myvcd.getportgroups(VimServerReference)
+
 
