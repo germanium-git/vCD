@@ -380,7 +380,7 @@ class vCD:
                                     + VimServerReference + '/networks', verify=False, headers=self.headers)
 
 
-            netw_dir = xmltodict.parse(networks.text)
+            netw_dir = xmltodict.parse(networks.text, xml_attribs=True)
             #print(netw_dir)
 
 
