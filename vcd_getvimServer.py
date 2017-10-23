@@ -23,7 +23,7 @@ cred = credentials(inputs)
 myvcd = vCD(*cred)
 
 
-# List all external networks
+# Get vCenter UUID
 myvcd.gettoken()
 print(myvcd.getvcenter())
 
