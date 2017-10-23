@@ -340,7 +340,7 @@ class vCD:
         :param:
         :return:    vcenter uuid
         """
-
+        uuid = 'None'
         try:
             vimServerReferences = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServerReferences',
                              verify=False, headers=self.headers)
@@ -348,7 +348,7 @@ class vCD:
             root = ET.fromstring(vimServerReferences.text)
             for child in root:
                 #print (child.tag, child.attrib)
-                if re.search('vimServerReferences', child.tag):
+                if re.search('vimServerReference', child.tag):
                     #print('\n')
                     if re.search('api/admin/extension/vimServer/', child.attrib['href']):
                         uuid = child.attrib['href'].split('/')[-1]
