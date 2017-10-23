@@ -31,7 +31,7 @@ pprint(myvcd.getedges())
 
 # Get all organizations
 print('Retrieving organisation list -------')
-orgs = lpr.getorgs()
+orgs = myvcd.getorgs()
 pprint(org)
 
 
@@ -40,7 +40,7 @@ print('Retrieving vDCs --------------------')
 # Get all vDCs
 vdc_dir = {}
 for org in orgs:
-    vdc_dir[org] = lpr.getvdcs(org)
+    vdc_dir[org] = myvcd.getvdcs(org)
 pprint(vdc_dir)
 
 
@@ -48,5 +48,5 @@ pprint(vdc_dir)
 print('Retrieving vDC Networks -------------')
 for org in vdc_dir:
     for vdc in vdc_dir[org].values():
-        vdcnets = lpr.getvdcnetworks(vdc)
+        vdcnets = myvcd.getvdcnetworks(vdc)
 pprint(vdcnets)
