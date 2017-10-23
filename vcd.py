@@ -132,7 +132,7 @@ class vCD:
         :param:
         :return:    token
         """
-
+        print('Updating authentication token -----------')
         try:
             r = requests.post('https://' + self.vcd_ip + '/api/sessions', auth=(self.login, self.pswd),
                              verify=False, headers=self.headers)
@@ -152,6 +152,41 @@ class vCD:
             print('connect - TooManyRedirects error: {}'.format(e))
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
+
+
+
+    def getextnetworks(self):
+        """
+        :param:
+        :return:
+        """
+        print('Retrieving the list of external networks -----------')
+        try:
+            extnw_list = requests.get('https://' + self.vcd_ip + '/api/admin/extension/externalNetworkReferences',
+                             verify=False, headers=self.headers)
+
+            root = ET.fromstring(extnw_list.text)
+            for child in root:
+                print (child.tag, child.attrib)
+                if re.search('vmext:ExternalNetworkReference', child.tag):
+                    print('\n')
+                    # print edgeGateway name
+                    print child.attrib['name']
+                    # print edgeGateway href
+                    print child.attrib['href'].split('/')[-1]
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
 
 
 

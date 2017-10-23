@@ -24,4 +24,4 @@ myvcd = vCD(*cred)
 
 # List all external networks
 myvcd.gettoken()
-print(myvcd.headers)
+myvcd.getextnetworks()
