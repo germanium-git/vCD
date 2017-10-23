@@ -32,4 +32,9 @@ networks = myvcd.getportgroups(vcenter['VimServerReference'])
 
 pprint(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs'])
 
+for i in networks:
+    print(networks[i]['vmext:VimServerRef']['vmext:MoRef'])
+    print(networks[i]['vmext:VimServerRef']['vmext:VimObjectType'])
+
+
 
