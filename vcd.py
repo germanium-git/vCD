@@ -84,19 +84,18 @@ def credentials(inputfile):
         s = f.read()
 
     # Read the directory of credentials from file
-    nsx_cred = yaml.load(s)
+    vcd_cred = yaml.load(s)
 
-    nsx_ip = raw_input("NSX manager IP [%s]: " % nsx_cred['nsx_ip']) or nsx_cred['nsx_ip']
-    account = raw_input("Account [%s]: " % nsx_cred['account']) or nsx_cred['account']
-    if 'passw' in nsx_cred:
-        passw = getpass.getpass(prompt='Use the stored password or enter new one: ', stream=None) or nsx_cred['passw']
-        passw = nsx_cred['passw']
+    vcd_ip = raw_input("vCD IP [%s]: " % vcd_cred['vcd_ip']) or vcd_cred['vcd_ip']
+    account = raw_input("Account [%s]: " % vcd_cred['account']) or vcd_cred['account']
+    if 'passw' in _cred:
+        passw = getpass.getpass(prompt='Use the stored password or enter new one: ', stream=None) or vcd_cred['passw']
     else:
         passw = 'None'
         while passw == 'None' or passw == '':
             passw = getpass.getpass(prompt='Password: ', stream=None)
 
-    return nsx_ip, account, passw
+    return vcd_ip, account, passw
 
 
 
