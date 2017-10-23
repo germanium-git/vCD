@@ -1,0 +1,27 @@
+<vmext:VMWExternalNetwork xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:vmext="http://www.vmware.com/vcloud/extension/v1.5" name="{{name}}" >
+<Description></Description>
+<Configuration>
+<IpScopes>
+<IpScope>
+<IsInherited>false</IsInherited>
+<Gateway>{{Gateway}}</Gateway>
+<Netmask>{{Netmask}}</Netmask>
+<IsEnabled>true</IsEnabled>
+<IpRanges>
+<IpRange>
+<StartAddress>{{StartAddress}}</StartAddress>
+<EndAddress>{{EndAddress}}</EndAddress>
+</IpRange>
+</IpRanges>
+<SubAllocations/>
+</IpScope>
+</IpScopes>
+<FenceMode>isolated</FenceMode>
+<RetainNetInfoAcrossDeployments>false</RetainNetInfoAcrossDeployments>
+</Configuration>
+<vmext:VimPortGroupRef>
+<vmext:VimServerRef href="https://test-portal.vmware.onecloud.tieto.com/api/admin/extension/vimServer/{{VimServerReference}}"/>
+<vmext:MoRef>{{dvportgroup}}</vmext:MoRef>
+<vmext:VimObjectType>DV_PORTGROUP</vmext:VimObjectType>
+</vmext:VimPortGroupRef>
+</vmext:VMWExternalNetwork>

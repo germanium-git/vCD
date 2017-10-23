@@ -14,6 +14,7 @@ import getpass
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 import xml.etree.ElementTree as ET
+import xmltodict
 import re
 
 import sys
@@ -366,3 +367,61 @@ class vCD:
             print('connect - JSON format error: {}'.format(e))
 
         return vcenter
+
+
+    def getportgroups(self, VimServerReference):
+        """
+        :param:
+        :return:    vdc networks
+        """
+        pgroups = {}
+        try:
+            networks = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServer/'
+                                    + VimServerReference + '/networks', verify=False, headers=self.headers)
+
+
+            netw_dir = xmltodict.parse(networks.text)
+            print(netw_dir)
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+
+
+
+    def create_extnetwork(self, vdc, cfg):
+        """
+        :param:     xml body & vDC
+        :return:
+        """
+        self.headers.update({'Content-Type': 'application/vnd.vmware.vcloud.orgVdcNetwork+xml'})
+
+        try:
+            r = requests.post('https://' + self.vcd_ip + 'api/admin/vdc/' + vdc + '/networks', data=cfg,
+                             verify=False, headers=self.headers)
+
+            print(r)
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+
+
+
