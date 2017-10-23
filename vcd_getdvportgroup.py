@@ -28,6 +28,7 @@ myvcd = vCD(*cred)
 myvcd.gettoken()
 vcenter = myvcd.getvcenter()
 
-myvcd.getportgroups(vcenter['VimServerReference'])
+networks = myvcd.getportgroups(vcenter['VimServerReference'])
+pprint(networks)
 
 
