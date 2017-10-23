@@ -380,7 +380,7 @@ class vCD:
                                     + VimServerReference + '/networks', verify=False, headers=self.headers)
 
 
-            networks = xmltodict.parse(networks.text, xml_attribs=True)
+            networks = xmltodict.parse(r.text, xml_attribs=True)
 
             for i in range(len(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'])):
                 if (networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']
