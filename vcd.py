@@ -304,6 +304,7 @@ class vCD:
         :param:
         :return:    vdc networks
         """
+        vdcnetworks = {}
         try:
             vdc_list = requests.get('https://' + self.vcd_ip + '/api/admin/vdc/' + vdc + '/networks',
                              verify=False, headers=self.headers)
@@ -312,11 +313,10 @@ class vCD:
             for child in root:
                 #print (child.tag, child.attrib)
                 if re.search('OrgVdcNetworkRecord', child.tag):
-                    print('\n')
-                    print child.attrib['name']
-                    print child.attrib['netmask']
-                    print child.attrib['defaultGateway']
-                    print child.attrib['href'].split('/')[-1]
+                    #print('\n')
+                    vdcnetworks[child.attrib['name']] = {'netmask': child.attrib['netmask'],
+                                                         'gateway': child.attrib['defaultGateway'],
+                                                         'uuid': child.attrib['href'].split('/')[-1], 'vdc': vdc}
 
 
         except requests.exceptions.Timeout as e:
@@ -330,3 +330,4 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
+        return vdcnetworks
