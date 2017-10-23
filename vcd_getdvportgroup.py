@@ -29,6 +29,6 @@ myvcd.gettoken()
 vcenter = myvcd.getvcenter()
 
 networks = myvcd.getportgroups(vcenter['VimServerReference'])
-pprint(networks)
+pprint(networks['vmext:VimObjectRefList'])
 
 
