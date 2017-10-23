@@ -160,6 +160,7 @@ class vCD:
         :param:
         :return:
         """
+        extnets = {}
         print('Retrieving the list of external networks -----------')
         try:
             extnw_list = requests.get('https://' + self.vcd_ip + '/api/admin/extension/externalNetworkReferences',
@@ -171,9 +172,7 @@ class vCD:
                 if re.search('ExternalNetworkReference', child.tag):
                     print('\n')
                     # print edgeGateway name
-                    print child.attrib['name']
-                    # print edgeGateway href
-                    print child.attrib['href'].split('/')[-1]
+                    extnets[child.attrib['name']] = child.attrib['href'].split('/')[-1]
 
 
         except requests.exceptions.Timeout as e:
@@ -187,7 +186,7 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
-
+        return extnets
 
 
     def getedges(self):
