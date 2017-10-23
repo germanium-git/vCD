@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea
+.idea/*
 *.pyc
-inputs
+
+inputs/*
 !inputs/vcd_mylab.yml
 test.py

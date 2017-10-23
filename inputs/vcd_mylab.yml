@@ -1,0 +1,9 @@
+---
+  # Specify credentials
+  vcd_ip: 10.20.30.40
+  account: admin@system
+  # Password is optional. Comment it and enter the password in input dialog.
+  passw: my_pass
+
+  banner: The vSphere in MyLAB will be modified
+
