@@ -13,6 +13,7 @@ from vcd import credentials
 from vcd import seldc
 import sys
 
+from pprint import pprint
 
 # Select the vCD to be modified
 inputs = 'inputs/vcd_' + seldc(sys.argv[1:]) + '.yml'
@@ -25,6 +26,6 @@ myvcd = vCD(*cred)
 
 # Get vCenter UUID
 myvcd.gettoken()
-print(myvcd.getvcenter())
+pprint(myvcd.getvcenter())
 
 
