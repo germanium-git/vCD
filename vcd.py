@@ -314,7 +314,8 @@ class vCD:
                 #print (child.tag, child.attrib)
                 if re.search('OrgVdcNetworkRecord', child.tag):
                     #print('\n')
-                    vdcnetworks[child.attrib['name']] = {'netmask': child.attrib['netmask'],
+                    vdcnetworks[child.attrib['name']] = {'edge': child.attrib['connectedTo'],
+                                                         'netmask': child.attrib['netmask'],
                                                          'gateway': child.attrib['defaultGateway'],
                                                          'uuid': child.attrib['href'].split('/')[-1], 'vdc': vdc}
 
