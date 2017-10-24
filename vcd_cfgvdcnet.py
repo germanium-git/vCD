@@ -90,7 +90,7 @@ while edge == 'None' or edge not in orgedges.keys():
 
 
 # Read the parameters of the vdc network from *.yml file ---------------------------
-path = 'inputs/vcdnet_' + env + '.yml'
+path = 'inputs/vdcnet_' + env + '.yml'
 
 # Read Edge parameters
 with open(path, 'r') as f:
