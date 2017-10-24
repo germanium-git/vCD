@@ -83,13 +83,14 @@ extnw_data = yaml.load(extnw_spec)
 
 
 # add dvportgroup to directory
-extnw_data['dvswitchpg'] = 'dvportgroup-' + str(dvportgroup)
+extnw_data['dvportgroup'] = 'dvportgroup-' + str(dvpgroup)
 
 
 # Print configuration summary ------------------------------------------------
 print('\n')
 cprint('\nReview the external network to be created:', 'red')
 print('  Name:               %s' % extnw_data['name'])
+print('  Distributed pgroup: %s' % extnw_data['dvportgroup'])
 print('  Gateway:            %s' % extnw_data['Gateway'])
 print('  Netmask:            %s' % extnw_data['netmask'])
 print('  Pool Start Address: %s' % extnw_data['StartAddress'])
