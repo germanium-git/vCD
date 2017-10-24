@@ -73,7 +73,7 @@ for edge in alledges:
     print alledges[edge]['vdc']
     if alledges[edge]['vdc'] in vdcs.values():
         # Crete a subset of edges belonging to the organisation
-        orgedges['edge'] = alledges[edge]['uuid']
+        orgedges[edge] = alledges[edge]['uuid']
 
 pprint(orgedges.keys())
 
