@@ -411,7 +411,7 @@ class vCD:
         self.headers.update({'Content-Type': 'application/vnd.vmware.admin.vmwexternalnet+xml'})
 
         try:
-            r = requests.post('https://' + self.vcd_ip + 'admin/extension/externalnets', data=cfg,
+            r = requests.post('https://' + self.vcd_ip + '/api/admin/extension/externalnets', data=cfg,
                              verify=False, headers=self.headers)
 
             print(r)
