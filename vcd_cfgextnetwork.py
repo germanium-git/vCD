@@ -59,7 +59,7 @@ vcenter = myvcd.getvcenter()
 
 # Choose dvportgroup -----------------------------------------------------
 # Retrieve all portgroups
-dvportgroups = myvcd.getportgroups(vcenter[VimServerReference])
+dvportgroups = myvcd.getportgroups(vcenter['VimServerReference'])
 dvpgroup = 'None'
 failure = 0
 while dvpgroup.isdigit == False or ('dvpgroup' + str(dvpgroup)) not in dvportgroups:
