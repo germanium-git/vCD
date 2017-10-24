@@ -1,0 +1,7 @@
+---
+name: myExtNw
+Gateway: 10.0.0.1
+netmask: 255.255.255.240
+StartAddress: 10.0.0.3
+EndAddress: 10.0.0.14
+

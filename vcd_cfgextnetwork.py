@@ -62,7 +62,7 @@ vcenter = myvcd.getvcenter()
 dvportgroups = myvcd.getportgroups(vcenter['VimServerReference'])
 dvpgroup = 'None'
 failure = 0
-while dvpgroup.isdigit == False or ('dvpgroup' + str(dvpgroup)) not in dvportgroups:
+while ('dvportgroup-' + str(dvpgroup)) not in dvportgroups:
     dvpgroup = raw_input("Choose existing dvportgroup: ")
     failure += 1
     if failure > 3:
