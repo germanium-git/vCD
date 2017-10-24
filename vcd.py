@@ -403,15 +403,15 @@ class vCD:
 
 
 
-    def create_extnetwork(self, vdc, cfg):
+    def create_extnetwork(self, cfg):
         """
-        :param:     xml body & vDC
+        :param:
         :return:
         """
-        self.headers.update({'Content-Type': 'application/vnd.vmware.vcloud.orgVdcNetwork+xml'})
+        self.headers.update({'Content-Type': 'application/vnd.vmware.admin.vmwexternalnet+xml'})
 
         try:
-            r = requests.post('https://' + self.vcd_ip + 'api/admin/vdc/' + vdc + '/networks', data=cfg,
+            r = requests.post('https://' + self.vcd_ip + 'admin/extension/externalnets', data=cfg,
                              verify=False, headers=self.headers)
 
             print(r)
