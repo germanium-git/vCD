@@ -244,7 +244,7 @@ class vCD:
                 if re.search('Org', child.tag):
                     #print('\n')
                     #print child.attrib['name']
-                    orgs[child.attrib['href'].split('/')[-1]] = child.attrib['name']
+                    child.attrib['name'] = orgs[child.attrib['href'].split('/')[-1]
 
 
         except requests.exceptions.Timeout as e:
