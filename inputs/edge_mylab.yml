@@ -1,0 +1,7 @@
+---
+name: myEdge
+Description: test gateway
+Gateway: 10.0.0.1
+Netmask: 255.255.255.240
+IpAddress: 10.0.0.3
+

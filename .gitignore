@@ -5,4 +5,5 @@
 inputs/*
 !inputs/vcd_mylab.yml
 !inputs/extnet_mylab.yml
+!inputs/edge_mylab.yml
 test.py

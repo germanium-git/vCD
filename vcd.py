@@ -429,4 +429,27 @@ class vCD:
 
 
 
+    def create_edge(self, vdc, cfg):
+        """
+        :param:
+        :return:
+        """
+        self.headers.update({'Content-Type': 'application/vnd.vmware.admin.edgeGateway+xml'})
+
+        try:
+            r = requests.post('https://' + self.vcd_ip + '/api/admin/vdc/' + vdc + '/edgeGateways', data=cfg,
+                             verify=False, headers=self.headers)
+
+            print(r)
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
 

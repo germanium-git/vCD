@@ -24,26 +24,6 @@ env = seldc(sys.argv[1:])
 inputs = 'inputs/vcd_' + env + '.yml'
 
 
-"""
-# Choose organization -----------------------------------------------------
-orgs = myvcd.getorgs()
-org = 'None'
-while org == 'None' or org not in orgs:
-    org = raw_input("Organization: ")
-
-
-org = 'None'
-failure = 0
-while org == 'None' or org not in orgs:
-    org = raw_input("Organization: ")
-    failure += 1
-    if failure > 3:
-        print('Too many failures')
-        sys.exit(1)
-
-extnw_data['organization'] = org
-
-"""
 
 # Load vCD credentials ---------------------------------------------------
 cred = credentials(inputs)
