@@ -53,7 +53,7 @@ myvcd = vCD(*cred)
 
 # Retrieve vCenter VimServerReference ------------------------------------
 myvcd.gettoken()
-VimServerReference = myvcd.getvcenter()
+vcenter = myvcd.getvcenter()
 
 
 
