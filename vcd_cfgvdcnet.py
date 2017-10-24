@@ -70,7 +70,7 @@ print(vdcs.values())
 
 for edge in alledges:
     # Test if the edge belongs to one of the organisation's vDC
-    print alledges[edge]['uuid']
+    print alledges[edge]['vdc']
     if alledges[edge]['vdc'] in vdcs.values():
         # Crete a subset of edges belonging to the organisation
         orgedges['edge'] = alledges[edge]['uuid']
