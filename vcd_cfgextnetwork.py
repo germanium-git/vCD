@@ -84,7 +84,7 @@ extnw_data = yaml.load(extnw_spec)
 
 # add dvportgroup to directory
 extnw_data['dvportgroup'] = 'dvportgroup-' + str(dvpgroup)
-
+extnw_data['VimServerReference'] = vcenter['VimServerReference']
 
 # Print configuration summary ------------------------------------------------
 print('\n')
