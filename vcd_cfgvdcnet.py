@@ -89,18 +89,18 @@ while edge == 'None' or edge not in orgedges.keys():
 
 
 
-# Read the parameters of the external network from *.yml file ---------------------------
-path = 'inputs/edge_' + env + '.yml'
+# Read the parameters of the vdc network from *.yml file ---------------------------
+path = 'inputs/vcdnet_' + env + '.yml'
 
 # Read Edge parameters
 with open(path, 'r') as f:
     edge_spec = f.read()
 
-edge_data = yaml.load(edge_spec)
+vdc_data = yaml.load(edge_spec)
 
 
 # add additional parameters taken from input dialog to directory
-edge_data['extnetwork'] = orgedges[edge]
+vdc_data['edge'] = orgedges[edge]
 
 
 # Print configuration summary -----------------------------------------------------------
@@ -108,10 +108,12 @@ print('\n')
 cprint('\nReview the edge to be created:', 'red')
 print('  Organization:       %s' % org)
 print('  Edge                %s' % edge)
-print('  Name:               %s' % edge_data['name'])
-print('  Gateway:            %s' % edge_data['Gateway'])
-print('  Netmask:            %s' % edge_data['Netmask'])
-print('  Pool End Address:   %s' % edge_data['IpAddress'])
+print('  Name:               %s' % vdc_data['name'])
+print('  Description:        %s' % vdc_data['Description'])
+print('  Gateway:            %s' % vdc_data['Gateway'])
+print('  Netmask:            %s' % vdc_data['Netmask'])
+print('  Pool Start Address: %s' % vdc_data['StartAddress'])
+print('  Pool End Address:   %s' % vdc_data['EndAddress'])
 print('\n')
 
 
@@ -126,12 +128,12 @@ if agree != "Y" and agree != "y":
     sys.exit(1)
 else:
     # Define XML Body
-    xml_edge = createbody("templates/edge.j2", edge_data)
+    xml_vdcnet = createbody("templates/edge.j2", vdc_data)
 
     # Create edge
     print('Wait for tasks to be completed')
-    print('Configuring edge - {0} ---------'.format(edge_data['name']))
-    myvcd.create_edge(vdcs[vdc], xml_edge)
+    print('Configuring vDC network - {0} ---------'.format(vdc_data['name']))
+    myvcd.create_vdcnetwork(vdcs[vdc], xml_vdcnet)
 
 
 

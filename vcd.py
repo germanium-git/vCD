@@ -453,3 +453,27 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
+
+    def create_vdcnetwork(self, vdc, cfg):
+        """
+        :param:
+        :return:
+        """
+        self.headers.update({'Content-Type': 'application/vnd.vmware.vcloud.orgVdcNetwork+xml'})
+
+        try:
+            r = requests.post('https://' + self.vcd_ip + '/api/admin/vdc/' + vdc + '/networks', data=cfg,
+                             verify=False, headers=self.headers)
+
+            print(r)
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
