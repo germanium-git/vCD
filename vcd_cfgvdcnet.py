@@ -3,7 +3,7 @@
 """
 ===================================================================================================
    Author:         Petr Nemec
-   Description:    Create the edge
+   Description:    Create vDC network
    Date:           2017-10-23
 ===================================================================================================
 """
@@ -61,14 +61,21 @@ while vdc == 'None' or vdc not in vdcs:
 
 
 
-# Choose external network ---------------------------------------------------------------
-extnets = myvcd.getextnetworks()
-pprint(extnets.keys())
+# Choose edge ---------------------------------------------------------------
+alledges = myvcd.getedges()
+orgedges = {}
+for edge in alledges:
+    # Test if the edge belongs to one of the organisation's vDC
+    if alledges[edge] in vdcs.values():
+        # Crete a subset of edges belonging to the organisation
+        orgedges['edge'] = alledges[edge]['uuid']
 
-extnw = 'None'
+pprint(orgedges.keys())
+
+edge = 'None'
 failure = 0
-while extnw == 'None' or extnw not in extnets.keys():
-    extnw = raw_input("Choose an existing external network: ")
+while edge == 'None' or edge not in orgedges.keys():
+    edge = raw_input("Choose an existing edge: ")
     failure += 1
     if failure > 3:
         print('Too many failures')
@@ -88,20 +95,18 @@ edge_data = yaml.load(edge_spec)
 
 
 # add additional parameters taken from input dialog to directory
-edge_data['extnetwork'] = extnets[extnw]
-
+edge_data['extnetwork'] = orgedges[edge]
 
 
 # Print configuration summary -----------------------------------------------------------
 print('\n')
 cprint('\nReview the edge to be created:', 'red')
 print('  Organization:       %s' % org)
-print('  vDC                 %s' % vdc)
-print('  External network:   %s' % extnw)
+print('  Edge                %s' % edge)
 print('  Name:               %s' % edge_data['name'])
 print('  Gateway:            %s' % edge_data['Gateway'])
 print('  Netmask:            %s' % edge_data['Netmask'])
-print('  IP Address:         %s' % edge_data['IpAddress'])
+print('  Pool End Address:   %s' % edge_data['IpAddress'])
 print('\n')
 
 
@@ -117,7 +122,6 @@ if agree != "Y" and agree != "y":
 else:
     # Define XML Body
     xml_edge = createbody("templates/edge.j2", edge_data)
-    print(xml_edge)
 
     # Create edge
     print('Wait for tasks to be completed')

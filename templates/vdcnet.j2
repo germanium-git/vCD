@@ -1,13 +1,11 @@
-<OrgVdcNetwork
-name="SRV_172.16.5.0m24"
-xmlns="http://www.vmware.com/vcloud/v1.5">
-<Description></Description>
+<OrgVdcNetwork name="{{name}}"xmlns="http://www.vmware.com/vcloud/v1.5">
+<Description>{{Description}}</Description>
 <Configuration>
 <IpScopes>
 <IpScope>
 <IsInherited>false</IsInherited>
-<Gateway>172.16.5.1</Gateway>
-<Netmask>{{netmask}}</Netmask>
+<Gateway>{{Gateway}}</Gateway>
+<Netmask>{{Netmask}}</Netmask>
 <IpRanges>
 <IpRange>
 <StartAddress>{{StartAddress}}</StartAddress>

@@ -1,0 +1,8 @@
+---
+name: SRV_172.16.5.0m24
+Description: test vdc net
+Gateway: 172.16.5.1
+Netmask: 255.255.255.0
+StartAddress: 172.16.5.100
+EndAddress: 172.16.5.120
+
