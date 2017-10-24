@@ -61,13 +61,13 @@ while vdc == 'None' or vdc not in vdcs:
 
 
 
-# Choose edge ---------------------------------------------------------------
+# Choose edge ---------------------------------------------------------------------------
 alledges = myvcd.getedges()
 pprint(alledges)
 orgedges = {}
 for edge in alledges:
     # Test if the edge belongs to one of the organisation's vDC
-    if alledges[edge] in vdcs.values():
+    if alledges[edge]['uuid'] in vdcs.values():
         # Crete a subset of edges belonging to the organisation
         orgedges['edge'] = alledges[edge]['uuid']
 
