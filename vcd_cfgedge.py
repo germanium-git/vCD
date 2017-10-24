@@ -101,7 +101,7 @@ print('  External network:   %s' % extnw)
 print('  Name:               %s' % edge_data['name'])
 print('  Gateway:            %s' % edge_data['Gateway'])
 print('  Netmask:            %s' % edge_data['Netmask'])
-print('  IP Address:         %s' % edge_data['IpAddress'])
+print('  Pool End Address:   %s' % edge_data['IpAddress'])
 print('\n')
 
 
@@ -117,7 +117,6 @@ if agree != "Y" and agree != "y":
 else:
     # Define XML Body
     xml_edge = createbody("templates/edge.j2", edge_data)
-    print(xml_edge)
 
     # Create edge
     print('Wait for tasks to be completed')

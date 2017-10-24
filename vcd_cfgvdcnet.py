@@ -63,6 +63,7 @@ while vdc == 'None' or vdc not in vdcs:
 
 # Choose edge ---------------------------------------------------------------
 alledges = myvcd.getedges()
+pprint(alledges)
 orgedges = {}
 for edge in alledges:
     # Test if the edge belongs to one of the organisation's vDC
