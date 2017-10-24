@@ -385,7 +385,7 @@ class vCD:
             for i in range(len(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'])):
                 if (networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']
                     ['vmext:VimObjectRef'][i]['vmext:VimObjectType']) == 'DV_PORTGROUP':
-                    pgroups.append(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'][i]['vmext:MoRef']).encode('ascii','ignore')
+                    pgroups.append(str(networks['vmext:VimObjectRefList']['vmext:VimObjectRefs']['vmext:VimObjectRef'][i]['vmext:MoRef']).encode('ascii','ignore'))
 
 
         except requests.exceptions.Timeout as e:
