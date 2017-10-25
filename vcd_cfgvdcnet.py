@@ -63,14 +63,12 @@ while vdc == 'None' or vdc not in vdcs:
 
 # Choose edge ---------------------------------------------------------------------------
 alledges = myvcd.getedges()
-pprint(alledges)
 orgedges = {}
 
 print(vdcs.values())
 
 for edge in alledges:
     # Test if the edge belongs to one of the organisation's vDC
-    print alledges[edge]['vdc']
     if alledges[edge]['vdc'] in vdcs.values():
         # Crete a subset of edges belonging to the organisation
         orgedges[edge] = alledges[edge]['uuid']
@@ -128,7 +126,7 @@ if agree != "Y" and agree != "y":
     sys.exit(1)
 else:
     # Define XML Body
-    xml_vdcnet = createbody("templates/edge.j2", vdc_data)
+    xml_vdcnet = createbody("templates/vdcnet.j2", vdc_data)
 
     # Create edge
     print('Wait for tasks to be completed')
