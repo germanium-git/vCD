@@ -15,7 +15,7 @@ import sys
 
 from pprint import pprint
 
-# Select the vCD to be modified
+# Select the vCD
 inputs = 'inputs/vcd_' + seldc(sys.argv[1:]) + '.yml'
 
 

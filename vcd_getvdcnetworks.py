@@ -3,7 +3,7 @@
 """
 ===================================================================================================
    Author:         Petr Nemec
-   Description:    Get the vDC networks
+   Description:    Get the vDC networks from all organizations
    Date:           2017-10-23
 ===================================================================================================
 """
@@ -15,7 +15,7 @@ import sys
 
 from pprint import pprint
 
-# Select the vCD to be modified
+# Select the vCD
 inputs = 'inputs/vcd_' + seldc(sys.argv[1:]) + '.yml'
 
 

@@ -15,7 +15,7 @@ import sys
 
 from pprint import pprint
 
-# Select the vCD to be modified
+# Select the vCD
 inputs = 'inputs/vcd_' + seldc(sys.argv[1:]) + '.yml'
 
 
@@ -27,6 +27,8 @@ myvcd = vCD(*cred)
 # Get vCenter UUID
 myvcd.gettoken()
 vcenter = myvcd.getvcenter()
+
+
 
 # Retrieve all portgroups
 port_groups = myvcd.getportgroups(vcenter['VimServerReference'])

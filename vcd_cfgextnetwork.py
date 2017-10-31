@@ -19,7 +19,7 @@ from termcolor import cprint
 
 
 
-# Select the vCD to be modified
+# Select the vCD
 env = seldc(sys.argv[1:])
 inputs = 'inputs/vcd_' + env + '.yml'
 

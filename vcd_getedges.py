@@ -15,7 +15,7 @@ import sys
 
 from pprint import pprint
 
-# Select the vCD to be modified
+# Select the vCD
 inputs = 'inputs/vcd_' + seldc(sys.argv[1:]) + '.yml'
 
 
@@ -24,6 +24,6 @@ cred = credentials(inputs)
 myvcd = vCD(*cred)
 
 
-# List all external networks
+# List all edges
 myvcd.gettoken()
 pprint(myvcd.getedges())
