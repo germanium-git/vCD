@@ -40,9 +40,10 @@ print('Retrieving vDCs --------------------')
 # Get all vDCs
 vdc_dir = {}
 for org in orgs:
-    vdc_dir[org] = myvcd.getvdcs(org)
+    vdc_dir[org] = myvcd.getvdcs(orgs[org])
 print('vDCs summary --------------------')
 pprint(vdc_dir)
+
 
 
 # Get all vDC networks from all organisations
