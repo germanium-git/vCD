@@ -490,6 +490,7 @@ class vCD:
             vdc_list = requests.get('https://' + self.vcd_ip + '/api/vdc/' + vdc,
                              verify=False, headers=self.headers)
 
+            print(vdc + ' ----------------------------------------')
             root = ET.fromstring(vdc_list.text)
             for child in root:
                 #print (child.tag, child.attrib)
