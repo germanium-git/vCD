@@ -108,7 +108,7 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
 
 VMs = {}
 for i in vapps:
-    VMs = VMs + (myvcd.getvapp_vms(vapps[vapp]))
+    print(myvcd.getvapp_vms(vapps[i]))
 
 pprint(VMs)
 
