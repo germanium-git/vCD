@@ -494,6 +494,7 @@ class vCD:
             root = ET.fromstring(vdc_list.text)
             for child in root:
                 print (child.tag, child.attrib)
+
                 """
                 if re.search('ResourceEntities', child.tag):
                     for grandchild in child.tag:
