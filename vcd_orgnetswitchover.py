@@ -62,7 +62,7 @@ vapps = []
 agree = 'Y'
 failure = 0
 
-while agree "y" or agree "Y":
+while agree == "y" or agree == "Y":
     vapp = raw_input("Choose an existing vApp to be modified: ")
     if vapp not in vapps:
         failure += 1

@@ -495,7 +495,7 @@ class vCD:
                 #print (child.tag, child.attrib)
                 if re.search('ResourceEntities', child.tag):
                     #print('\n')
-                    #print (child.tag, child.attrib)
+                    print (child.tag, child.attrib)
                     if re.search('/api/vApp/vapp-', child.attrib['href']):
                         vcenter['VimServerReference'] = child.attrib['href'].split('/')[-1]
                         vApp[child.attrib['name']] = {'name': child.attrib['name'],
