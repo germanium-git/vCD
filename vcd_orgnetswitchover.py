@@ -13,6 +13,7 @@ from vcd import credentials
 from vcd import seldc
 import sys
 
+from termcolor import cprint
 from pprint import pprint
 
 # Select the vCD to be modified
