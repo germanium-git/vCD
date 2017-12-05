@@ -493,14 +493,14 @@ class vCD:
             print(vdc + ' ----------------------------------------')
             root = ET.fromstring(vdc_list.text)
             for child in root:
-                #print (child.tag, child.attrib)
-                if re.search('ResourceEntity', child.tag):
-                    #print('\n')
-                    print (child.tag, child.attrib)
-                    if re.search('/api/vApp/vapp-', child.attrib['href']):
-                        vcenter['VimServerReference'] = child.attrib['href'].split('/')[-1]
-                        vApp[child.attrib['name']] = {'name': child.attrib['name'],
-                                                      'uuid': child.attrib['href'].split('/')[-1]}
+                # print (child.tag, child.attrib)
+                if re.search('ResourceEntities', child.tag):
+                    for grandchild in child.tag:
+                        # print('\n')
+                        print (grandchild.tag, grandchild.attrib)
+                        if re.search('/api/vApp/vapp-', grandchild.attrib['href']):
+                            vApp[grandchild.attrib['name']] = {'name': grandchild.attrib['name'],
+                                                      'uuid': grandchild.attrib['href'].split('/')[-1]}
 
 
         except requests.exceptions.Timeout as e:
