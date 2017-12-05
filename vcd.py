@@ -493,8 +493,8 @@ class vCD:
             print(vdc + ' ----------------------------------------')
             root = ET.fromstring(vdc_list.text)
             for child in root:
-                print (child.tag, child.attrib)
-
+                # print (child.tag, child.attrib)
+                print(root.findall("./ResourceEntities/ResourceEntity"))
                 """
                 if re.search('ResourceEntities', child.tag):
                     for grandchild in child.tag:
