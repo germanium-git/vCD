@@ -43,6 +43,7 @@ while org == 'None' or org not in orgs:
 # Choose vDC ----------------------------------------------------------------------------
 vdcs = myvcd.getvdcs(orgs[org])
 pprint(vdcs.keys())
+pprint(vdcs)
 
 vdc = 'None'
 failure = 0
@@ -55,7 +56,6 @@ while vdc == 'None' or vdc not in vdcs:
 
 
 # Choose vApp ---------------------------------------------------------------------------
-print('Retrieving vApps --------------------')
 existing_vapps = myvcd.getvapp(vdcs['vdc'])
 pprint(existing_vapps)
 vapps = []
