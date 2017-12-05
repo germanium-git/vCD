@@ -28,6 +28,7 @@ myvcd.gettoken()
 
 # Choose organization -------------------------------------------------------------------
 orgs = myvcd.getorgs()
+print('\n')
 pprint(orgs.keys())
 
 
@@ -43,8 +44,8 @@ while org == 'None' or org not in orgs:
 
 # Choose vDC ----------------------------------------------------------------------------
 vdcs = myvcd.getvdcs(orgs[org])
+print('\n')
 pprint(vdcs.keys())
-pprint(vdcs)
 
 vdc = 'None'
 failure = 0
@@ -58,7 +59,8 @@ while vdc == 'None' or vdc not in vdcs:
 
 # Choose vApp ---------------------------------------------------------------------------
 existing_vapps = myvcd.getvapp(vdcs[vdc])
-pprint(existing_vapps)
+print('\n')
+pprint(existing_vapps.keys())
 vapps = []
 agree = 'Y'
 failure = 0
@@ -77,9 +79,11 @@ print('These vApps will be modified')
 print(vapps)
 
 
+
 # Choose the vDC Networks to be switched over -------------------------------------------
 vdcnets = myvcd.getvdcnetworks(vdcs[vdc])
-pprint(vdcnets)
+print('\n')
+pprint(vdcnets.keys())
 
 
 old_vdcnet = 'None'
@@ -122,7 +126,7 @@ cprint('\nReview the configuration changes:', 'red')
 print('  Organization:       %s' % org)
 print('  vDC                 %s' % vdc)
 print('  vApps:              %s' % vapps)
-print('  VMs:                %s' % VMs)
+print('  VMs:                %s' % VMs.keys())
 print('  Old Org Network:    %s' % old_vdcnet)
 print('  New Org Network:    %s' % new_vdcnet)
 print('\n')
