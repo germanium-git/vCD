@@ -107,9 +107,11 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
 # Get the list of VMs & IPs -------------------------------------------------------------
 
 VMs = {}
-for vapp in existing_vapps:
-    print(myvcd.getvapp_vms(existing_vapps[vapp]))
+for vapp in vapps:
+    VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
 
+print('\n')
+cprint('\nReview the VMs to be changed:', 'yellow')
 pprint(VMs)
 
 
