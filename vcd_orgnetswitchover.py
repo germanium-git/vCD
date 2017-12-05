@@ -56,7 +56,7 @@ while vdc == 'None' or vdc not in vdcs:
 
 
 # Choose vApp ---------------------------------------------------------------------------
-existing_vapps = myvcd.getvapp(vdcs['vdc'])
+existing_vapps = myvcd.getvapp(vdcs[vdc])
 pprint(existing_vapps)
 vapps = []
 agree = 'Y'
