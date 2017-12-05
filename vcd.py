@@ -514,6 +514,46 @@ class vCD:
 
 
 
+    def checkvapp_nw(self, vapp, orgnw):
+        """
+        :param:
+        :return:    False or True if network is present in the vApp
+        """
+
+        ns = {'vcloud': 'http://www.vmware.com/vcloud/v1.5'}
+
+        present = False
+        try:
+            vdc_list = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp + '/networkConfigSection',
+                             verify=False, headers=self.headers)
+
+
+            root = ET.fromstring(vdc_list.text)
+            for child in root:
+                #print (child.tag, child.attrib)
+                if re.search('NetworkConfig', child.tag):
+                    #print('\n')
+                    #print (child.tag, child.attrib)
+                    if child.attrib['networkName'] == orgnw:
+                        present = True
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return present
+
+
+
+
+
     def getvapp_vms(self, vapp):
         """
         :param:
@@ -525,13 +565,10 @@ class vCD:
                              verify=False, headers=self.headers)
 
             root = ET.fromstring(vapp.text)
-            for child in root:
-                #print (child.tag, child.attrib)
-                if re.search('Children', child.tag):
-                    #print('\n')
-                    #print (child.tag, child.attrib)
+            for resource in root.findall('vcloud:Children/', ns):
+                if resource.attrib['type'] == 'application/vnd.vmware.vcloud.vm+xml':
+                    vAppVM[resource.attrib['name']] = resource.attrib['href'].split('/')[-1]
 
-                    vAppVM[child.attrib['name']] = {'uuid': child.attrib['href'].split('/')[-1], 'vdc': vdc}
 
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))

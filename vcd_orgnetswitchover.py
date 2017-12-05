@@ -76,17 +76,15 @@ print('These vApps will be modified')
 print(vapps)
 
 
-
 # Choose the vDC Networks to be switched over -------------------------------------------
-print('Retrieving vDC Networks -------------')
-vdcnets = myvcd.getvdcnetworks(vdc)
+vdcnets = myvcd.getvdcnetworks(vdcs[vdc])
 pprint(vdcnets)
 
 
 old_vdcnet = 'None'
 failure = 0
 while old_vdcnet == 'None' or old_vdcnet not in vdcnets:
-    vdc = raw_input("Choose old Org Network: ")
+    old_vdcnet = raw_input("Choose old Org Network: ")
     failure += 1
     if failure > 3:
         print('Too many failures')
@@ -96,7 +94,7 @@ while old_vdcnet == 'None' or old_vdcnet not in vdcnets:
 new_vdcnet = 'None'
 failure = 0
 while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
-    vdc = raw_input("Choose new Org Network: ")
+    new_vdcnet = raw_input("Choose new Org Network: ")
     failure += 1
     if failure > 3:
         print('Too many failures')
@@ -106,15 +104,36 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
 # Check that vApps contains the Old&New Org Networks ------------------------------------------------
 
 
-
 # Get the list of VMs & IPs -------------------------------------------------------------
 
+VMs = {}
+for i in vapps:
+    VMs = VMs + (myvcd.getvapp_vms(self, vapps[vapp]))
+
+pprint(VMs)
 
 
+# Print configuration summary -----------------------------------------------------------
+print('\n')
+cprint('\nReview the configuration changes:', 'red')
+print('  Organization:       %s' % org)
+print('  vDC                 %s' % vdc)
+print('  vApps:              %s' % vapps)
+print('  VMs:                %s' % VMs)
+print('  Old Org Network:    %s' % old_vdcnet)
+print('  New Org Network:    %s' % new_vdcnet)
+print('\n')
 
+
+agree = raw_input("Do you want to apply these changes? y/n[N]: " or 'N')
+
+
+# Configure edge   ----------------------------------------------------------------------
 
 # Proceed with updating configuration
-
+if agree != "Y" and agree != "y":
+    print("Script execution canceled")
+    sys.exit(1)
 else:
     # Define XML Body
     xml_edge = createbody("templates/edge.j2", edge_data)
@@ -123,11 +142,6 @@ else:
     print('Wait for tasks to be completed')
     print('Configuring edge - {0} ---------'.format(edge_data['name']))
     myvcd.create_edge(vdcs[vdc], xml_edge)
-
-
-
-print('List all VMs  --------------------')
-
 
 
 
