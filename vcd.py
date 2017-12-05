@@ -559,12 +559,14 @@ class vCD:
         :param:
         :return:    VMs - children of a specific vApp
         """
+        ns = {'vcloud': 'http://www.vmware.com/vcloud/v1.5'}
         vAppVM = {}
+
         try:
-            vapp = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp,
+            r = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp,
                              verify=False, headers=self.headers)
 
-            root = ET.fromstring(vapp.text)
+            root = ET.fromstring(r.text)
             for resource in root.findall('vcloud:Children/', ns):
                 if resource.attrib['type'] == 'application/vnd.vmware.vcloud.vm+xml':
                     vAppVM[resource.attrib['name']] = resource.attrib['href'].split('/')[-1]
