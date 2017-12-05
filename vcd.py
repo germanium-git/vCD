@@ -493,7 +493,8 @@ class vCD:
             print(vdc + ' ----------------------------------------')
             root = ET.fromstring(vdc_list.text)
             for child in root:
-                # print (child.tag, child.attrib)
+                print (child.tag, child.attrib)
+                """
                 if re.search('ResourceEntities', child.tag):
                     for grandchild in child.tag:
                         # print('\n')
@@ -502,7 +503,7 @@ class vCD:
                             vApp[grandchild.attrib['name']] = {'name': grandchild.attrib['name'],
                                                       'uuid': grandchild.attrib['href'].split('/')[-1]}
 
-
+                 """
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
         except requests.exceptions.HTTPError as e:
