@@ -312,9 +312,9 @@ class vCD:
 
             root = ET.fromstring(vdc_list.text)
             for child in root:
-                #print (child.tag, child.attrib)
+                # print (child.tag, child.attrib)
                 if re.search('OrgVdcNetworkRecord', child.tag):
-                    #print('\n')
+                    # print('\n')
                     vdcnetworks[child.attrib['name']] = {'edge': child.attrib['connectedTo'],
                                                          'netmask': child.attrib['netmask'],
                                                          'gateway': child.attrib['defaultGateway'],
@@ -477,3 +477,144 @@ class vCD:
             print('connect - TooManyRedirects error: {}'.format(e))
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
+
+
+
+    def getvapp(self, vdc):
+        """
+        :param:
+        :return:    vApps
+        """
+        vApp = {}
+        try:
+            vdc_list = requests.get('https://' + self.vcd_ip + '/api/vdc/' + vdc,
+                             verify=False, headers=self.headers)
+
+            root = ET.fromstring(vdc_list.text)
+            for child in root:
+                #print (child.tag, child.attrib)
+                if re.search('ResourceEntities', child.tag):
+                    #print('\n')
+                    #print (child.tag, child.attrib)
+                    if re.search('/api/vApp/vapp-', child.attrib['href']):
+                        vcenter['VimServerReference'] = child.attrib['href'].split('/')[-1]
+                        vApp[child.attrib['name']] = {'name': child.attrib['name'],
+                                                      'uuid': child.attrib['href'].split('/')[-1]}
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return vApp
+
+
+
+    def getvapp_vms(self, vapp):
+        """
+        :param:
+        :return:    VMs - children of a specific vApp
+        """
+        vAppVM = {}
+        try:
+            vapp = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp,
+                             verify=False, headers=self.headers)
+
+            root = ET.fromstring(vapp.text)
+            for child in root:
+                #print (child.tag, child.attrib)
+                if re.search('Children', child.tag):
+                    #print('\n')
+                    #print (child.tag, child.attrib)
+
+                    vAppVM[child.attrib['name']] = {'uuid': child.attrib['href'].split('/')[-1], 'vdc': vdc}
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return vAppVM
+
+
+
+    def getvapp_vm_networkcards(self, vm):
+        """
+        :param:
+        :return:    Network cards of VMs
+        """
+        VM = {}
+        try:
+            netwcards = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vm + '/virtualHardwareSection/networkCards',
+                             verify=False, headers=self.headers)
+
+            root = ET.fromstring(netwcards.text)
+            for child in root:
+                #print (child.tag, child.attrib)
+                if re.search('Item', child.tag):
+                    print('\n')
+                    print (child.tag, child.attrib)
+                    #if re.search('ElementName', child.tag['Item']):
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+
+
+
+    def getvm(self, vim):
+        """
+        :param:
+        :return:
+        """
+        vcenter = {}
+        try:
+            r = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServer/' + vim + '/vmsList',
+                             verify=False, headers=self.headers)
+
+            root = ET.fromstring(vimServerReferences.text)
+            for child in root:
+                #print (child.tag, child.attrib)
+                if re.search('VimServerReference', child.tag):
+                    if re.search('api/admin/extension/vimServer/', child.attrib['href']):
+                        vcenter['VimServerReference'] = child.attrib['href'].split('/')[-1]
+                        vcenter['name'] = child.attrib['name']
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return vcenter
+
+
+
