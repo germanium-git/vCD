@@ -169,10 +169,10 @@ class vCD:
 
             root = ET.fromstring(extnw_list.text)
             for child in root:
-                #print (child.tag, child.attrib)
+                # print (child.tag, child.attrib)
                 if re.search('ExternalNetworkReference', child.tag):
-                    #print('\n')
-                    #print edgeGateway name
+                    # print('\n')
+                    # print edgeGateway name
                     extnets[child.attrib['name']] = child.attrib['href'].split('/')[-1]
 
 
@@ -203,15 +203,15 @@ class vCD:
 
             root = ET.fromstring(edge_list.text)
             for child in root:
-                #print (child.tag, child.attrib)
+                # print (child.tag, child.attrib)
                 if re.search('EdgeGatewayRecord', child.tag):
-                    #print('\n')
+                    # print('\n')
                     edges[child.attrib['name']] = {'vdc': child.attrib['vdc'].split('/')[-1],
                                                    'uuid': child.attrib['href'].split('/')[-1]}
                     # print vDC
-                    #print child.attrib['vdc'].split('/')[-1]
+                    # print child.attrib['vdc'].split('/')[-1]
                     # print edgeGateway href
-                    #print child.attrib['href'].split('/')[-1]
+                    # print child.attrib['href'].split('/')[-1]
 
 
         except requests.exceptions.Timeout as e:
@@ -240,10 +240,10 @@ class vCD:
 
             root = ET.fromstring(org_list.text)
             for child in root:
-                #print (child.tag, child.attrib)
+                # print (child.tag, child.attrib)
                 if re.search('Org', child.tag):
-                    #print('\n')
-                    #print child.attrib['name']
+                    # print('\n')
+                    # print child.attrib['name']
                     orgs[child.attrib['name']] = child.attrib['href'].split('/')[-1]
 
 
@@ -277,11 +277,11 @@ class vCD:
             root = ET.fromstring(orgcontent.text.encode('utf-8'))
 
             for child in root:
-                #print (child.tag, child.attrib)
-                #print (child.tag)
+                # print (child.tag, child.attrib)
+                # print (child.tag)
 
                 if re.search('Link', child.tag):
-                    #print('\n')
+                    # print('\n')
                     if re.search('/api/vdc/', child.attrib['href']):
                         vdcs[child.attrib['name']] = child.attrib['href'].split('/')[-1]
 
@@ -494,7 +494,7 @@ class vCD:
             root = ET.fromstring(vdc_list.text)
             for child in root:
                 #print (child.tag, child.attrib)
-                if re.search('ResourceEntities', child.tag):
+                if re.search('ResourceEntity', child.tag):
                     #print('\n')
                     print (child.tag, child.attrib)
                     if re.search('/api/vApp/vapp-', child.attrib['href']):
