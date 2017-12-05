@@ -485,6 +485,9 @@ class vCD:
         :param:
         :return:    vApps
         """
+
+        ns = {'vcloud': 'http://www.vmware.com/vcloud/v1.5'}
+
         vApp = {}
         try:
             vdc_list = requests.get('https://' + self.vcd_ip + '/api/vdc/' + vdc,
@@ -492,19 +495,10 @@ class vCD:
 
             print(vdc + ' ----------------------------------------')
             root = ET.fromstring(vdc_list.text)
-            for child in root:
-                # print (child.tag, child.attrib)
-                print(root.findall("./ResourceEntities/ResourceEntity"))
-                """
-                if re.search('ResourceEntities', child.tag):
-                    for grandchild in child.tag:
-                        # print('\n')
-                        print (grandchild.tag, grandchild.attrib)
-                        if re.search('/api/vApp/vapp-', grandchild.attrib['href']):
-                            vApp[grandchild.attrib['name']] = {'name': grandchild.attrib['name'],
-                                                      'uuid': grandchild.attrib['href'].split('/')[-1]}
+            for resource in root.findall('vcloud:ResourceEntities/', ns):
+                if resource.attrib['type'] == 'application/vnd.vmware.vcloud.vApp+xml':
+                    vApp[resource.attrib['name']] = resource.attrib['href'].split('/')[-1]
 
-                 """
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
         except requests.exceptions.HTTPError as e:
