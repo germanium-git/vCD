@@ -125,7 +125,7 @@ VMs_w_ip = {}
 for vm in VMs:
     VMs_w_ip[vm] = VMs[vm]
     print vm
-    print(myvcd.getvapp_vm_networkcards(VMs[vm])
+    print(myvcd.getvapp_vm_networkcards(VMs[vm]))
     VMs_w_ip.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
 
 
