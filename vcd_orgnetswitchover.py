@@ -108,19 +108,24 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
 
 
 # Check that vApps contains the Old&New Org Networks ------------------------------------------------
-# Identify the current IPs & network cards ----------------------------------------------------------
 
-# Get the list of VMs -------------------------------------------------------------------
+
+# Get the list of VMs included in the vApps ---------------------------------------------------------
 
 VMs = {}
 for vapp in vapps:
     VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
+print('\n')
+pprint(VMs)
+
 
 # Get the list of VMs & IPs -------------------------------------------------------------
 
 VMs_w_ip = {}
 for vm in VMs:
     VMs_w_ip[vm] = VMs[vm]
+    print vm
+    print(myvcd.getvapp_vm_networkcards(VMs[vm])
     VMs_w_ip.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
 
 
