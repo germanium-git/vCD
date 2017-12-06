@@ -106,14 +106,20 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
         sys.exit(1)
 
 
-# Check that vApps contains the Old&New Org Networks ------------------------------------------------
 
+# Check that vApps contains the Old&New Org Networks ------------------------------------------------
+# Identify the current IPs & network cards ----------------------------------------------------------
 
 # Get the list of VMs & IPs -------------------------------------------------------------
 
 VMs = {}
 for vapp in vapps:
     VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
+
+
+for vm in VMs:
+    VMs.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
+
 
 print('\n')
 cprint('\nReview the VMs to be changed:', 'yellow')
@@ -142,6 +148,8 @@ if agree != "Y" and agree != "y":
     print("Script execution canceled")
     sys.exit(1)
 else:
+
+    for vm in VMs
     # Define XML Body
     xml_edge = createbody("templates/edge.j2", edge_data)
 

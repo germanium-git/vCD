@@ -587,24 +587,32 @@ class vCD:
 
 
 
-    def getvapp_vm_networkcards(self, vm):
+    def getvapp_vm_networkcards(self, vm_id):
         """
         :param:
         :return:    Network cards of VMs
         """
-        VM = {}
+        ns = {'rasd': 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData',
+              'vcloud': 'http://www.vmware.com/vcloud/v1.5'}
+
+        nw_adapters = {}
         try:
-            netwcards = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vm + '/virtualHardwareSection/networkCards',
+            netwcards = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vm_id + '/virtualHardwareSection/networkCards',
                              verify=False, headers=self.headers)
 
-            root = ET.fromstring(netwcards.text)
-            for child in root:
-                #print (child.tag, child.attrib)
-                if re.search('Item', child.tag):
-                    print('\n')
-                    print (child.tag, child.attrib)
-                    #if re.search('ElementName', child.tag['Item']):
 
+            root = ET.fromstring(netwcards)
+            for child in root:
+                if child.tag == '{http://www.vmware.com/vcloud/v1.5}Item':
+                    for resource in child.findall('./rasd:ElementName', ns):
+                        nw_adapter = resource.text
+                    for resource in child.findall('./rasd:Address', ns):
+                        mac = resource.text
+                    for resource in child.findall('./rasd:Connection', ns):
+                        ip_addr = resource.attrib['{http://www.vmware.com/vcloud/v1.5}ipAddress']
+                        org_nw = resource.text
+
+                nw_adapters.update({nw_adapter: {'mac': mac, 'ip_addr': ip_addr, 'org_nw': org_nw}})
 
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
@@ -617,6 +625,7 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
+        return nw_adapters
 
 
 
