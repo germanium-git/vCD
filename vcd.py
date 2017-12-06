@@ -601,7 +601,7 @@ class vCD:
                              verify=False, headers=self.headers)
 
 
-            root = ET.fromstring(netwcards)
+            root = ET.fromstring(netwcards.text)
             for child in root:
                 if child.tag == '{http://www.vmware.com/vcloud/v1.5}Item':
                     for resource in child.findall('./rasd:ElementName', ns):
