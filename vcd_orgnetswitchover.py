@@ -122,11 +122,12 @@ pprint(VMs)
 # Get the list of VMs & IPs -------------------------------------------------------------
 
 VMs_w_ip = {}
+print('\n')
 for vm in VMs:
     VMs_w_ip[vm] = VMs[vm]
     print vm
-    print(myvcd.getvapp_vm_networkcards(VMs[vm]))
-    VMs_w_ip.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
+    nwinfo = myvcd.getvapp_vm_networkcards(VMs[vm])
+    VMs_w_ip.update(nwinfo)
 
 
 print('\n')
