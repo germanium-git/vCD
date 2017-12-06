@@ -117,14 +117,16 @@ for vapp in vapps:
     VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
 
 
+VMs_w_ip = {}
 for vm in VMs:
     pprint(myvcd.getvapp_vm_networkcards(VMs[vm]))
-    VMs.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
+    VMs_w_ip[vm] = VMs[vm]
+    VMs_w_ip.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
 
 
 print('\n')
 cprint('\nReview the VMs to be changed:', 'yellow')
-pprint(VMs)
+pprint(VMs_w_ip)
 
 
 # Print configuration summary -----------------------------------------------------------
