@@ -612,7 +612,7 @@ class vCD:
                         ip_addr = resource.attrib['{http://www.vmware.com/vcloud/v1.5}ipAddress']
                         org_nw = resource.text
 
-                nw_adapters.update({nw_adapter: {'mac': mac, 'ip_addr': ip_addr, 'org_nw': org_nw}})
+                    nw_adapters.update({nw_adapter: {'mac': mac, 'ip_addr': ip_addr, 'org_nw': org_nw}})
                 print(nw_adapters)
 
         except requests.exceptions.Timeout as e:
