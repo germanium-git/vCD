@@ -142,14 +142,13 @@ agree = raw_input("Do you want to apply these changes? y/n[N]: " or 'N')
 
 
 # Configure edge   ----------------------------------------------------------------------
-
+"""
 # Proceed with updating configuration
 if agree != "Y" and agree != "y":
     print("Script execution canceled")
     sys.exit(1)
 else:
-
-    for vm in VMs
+    for vm in VMs:
     # Define XML Body
     xml_edge = createbody("templates/edge.j2", edge_data)
 
@@ -158,7 +157,4 @@ else:
     print('Configuring edge - {0} ---------'.format(edge_data['name']))
     myvcd.create_edge(vdcs[vdc], xml_edge)
 
-
-
-
-
+"""
