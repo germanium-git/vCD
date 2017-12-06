@@ -613,6 +613,7 @@ class vCD:
                         org_nw = resource.text
 
                 nw_adapters.update({nw_adapter: {'mac': mac, 'ip_addr': ip_addr, 'org_nw': org_nw}})
+                print(nw_adapters)
 
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))

@@ -118,6 +118,7 @@ for vapp in vapps:
 
 
 for vm in VMs:
+    pprint(myvcd.getvapp_vm_networkcards(VMs[vm]))
     VMs.update(myvcd.getvapp_vm_networkcards(VMs[vm]))
 
 
