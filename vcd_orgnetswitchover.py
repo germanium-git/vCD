@@ -29,11 +29,13 @@ myvcd.gettoken()
 # Choose organization -------------------------------------------------------------------
 orgs = myvcd.getorgs()
 print('\n')
+cprint('\nThese are the organizations available in the vDC', 'yellow')
 pprint(orgs.keys())
 
 
 org = 'None'
 failure = 0
+print('\n')
 while org == 'None' or org not in orgs:
     org = raw_input("Choose an existing organization: ")
     failure += 1
@@ -45,6 +47,7 @@ while org == 'None' or org not in orgs:
 # Choose vDC ----------------------------------------------------------------------------
 vdcs = myvcd.getvdcs(orgs[org])
 print('\n')
+cprint('\nThese are the Virtual Data Centers available in the organizations %s' % org, 'yellow')
 pprint(vdcs.keys())
 
 vdc = 'None'
@@ -60,6 +63,7 @@ while vdc == 'None' or vdc not in vdcs:
 # Choose vApp ---------------------------------------------------------------------------
 existing_vapps = myvcd.getvapp(vdcs[vdc])
 print('\n')
+cprint('\nThese are the vApps in the Virtual Data Centers %s' % vdc, 'yellow')
 pprint(existing_vapps.keys())
 vapps = []
 agree = 'Y'
@@ -83,6 +87,7 @@ print(vapps)
 # Choose the vDC Networks to be switched over -------------------------------------------
 vdcnets = myvcd.getvdcnetworks(vdcs[vdc])
 print('\n')
+cprint('\nThese are the Org VDC Networks available in the %s' % vdc, 'yellow')
 pprint(vdcnets.keys())
 
 
@@ -115,8 +120,8 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
 VMs = {}
 for vapp in vapps:
     VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
-print('\n')
-pprint(VMs)
+# print('\n')
+# pprint(VMs)
 
 
 # Get the list of VMs & IPs -------------------------------------------------------------
@@ -124,10 +129,11 @@ pprint(VMs)
 VMs_w_ip = {}
 print('\n')
 for vm in VMs:
-    VMs_w_ip[vm] = VMs[vm]
-    print vm
+    VMs_w_ip[vm] = {'uuid': VMs[vm]}
+    # print vm
     nwinfo = myvcd.getvapp_vm_networkcards(VMs[vm])
-    VMs_w_ip.update(nwinfo)
+    # print(nwinfo)
+    VMs_w_ip[vm].update(nwinfo)
 
 
 print('\n')
