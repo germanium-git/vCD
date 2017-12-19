@@ -28,7 +28,6 @@ myvcd.gettoken()
 
 # Choose organization -------------------------------------------------------------------
 orgs = myvcd.getorgs()
-print('\n')
 cprint('\nThese are the organizations available in the vDC', 'yellow')
 pprint(orgs.keys())
 
@@ -83,6 +82,31 @@ print('These vApps will be modified')
 print(vapps)
 
 
+# Get the list of VMs included in the vApps ---------------------------------------------------------
+
+VMs = {}
+for vapp in vapps:
+    VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
+# print('\n')
+# pprint(VMs)
+
+
+# Get the list of VMs & IPs -------------------------------------------------------------
+
+VMs_w_ip = {}
+print('\n')
+for vm in VMs:
+    VMs_w_ip[vm] = {'uuid': VMs[vm]}
+    # print vm
+    nwinfo = myvcd.getvapp_vm_networkcards(VMs[vm])
+    # print(nwinfo)
+    VMs_w_ip[vm].update(nwinfo)
+
+
+print('\n')
+cprint('\nReview the VMs to be modified:', 'yellow')
+pprint(VMs_w_ip)
+
 
 # Choose the vDC Networks to be switched over -------------------------------------------
 vdcnets = myvcd.getvdcnetworks(vdcs[vdc])
@@ -111,34 +135,24 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
         sys.exit(1)
 
 
+# Check that VMs are connected to the Old Network ----------------------------------------
 
-# Check that vApps contains the Old&New Org Networks ------------------------------------------------
+incompl_VMs = []
+vm_compliant = False
+for vm in VMs_w_ip:
+    for key in vm.keys():
+        if key.startswith("Network adapter"):
+            if VMs_w_ip[vm][key] == old_vdcnet:
+                vm_compliant = True
+    if not vm_compliant:
+        incompl_VMs.append(vm)
 
+if len(incompl_VMs) > 0:
+    cprint("\nThese VMs aren't assigned to the Org NW %s" % old_vdcnet, 'red')
+    pprint(incompl_VMs)
+    cprint("\nCan't proceed, existing the script %s" % old_vdcnet, 'red')
+    sys.exit(1)
 
-# Get the list of VMs included in the vApps ---------------------------------------------------------
-
-VMs = {}
-for vapp in vapps:
-    VMs.update(myvcd.getvapp_vms(existing_vapps[vapp]))
-# print('\n')
-# pprint(VMs)
-
-
-# Get the list of VMs & IPs -------------------------------------------------------------
-
-VMs_w_ip = {}
-print('\n')
-for vm in VMs:
-    VMs_w_ip[vm] = {'uuid': VMs[vm]}
-    # print vm
-    nwinfo = myvcd.getvapp_vm_networkcards(VMs[vm])
-    # print(nwinfo)
-    VMs_w_ip[vm].update(nwinfo)
-
-
-print('\n')
-cprint('\nReview the VMs to be changed:', 'yellow')
-pprint(VMs_w_ip)
 
 
 # Print configuration summary -----------------------------------------------------------
