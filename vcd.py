@@ -51,13 +51,13 @@ def seldc(argv):
     try:
         opts, args = getopt.getopt(argv,"hi:")
     except getopt.GetoptError:
-        print 'Use this script with the parameter e.g.:'
-        print 'python <script>.py -i <DC>'
-        print 'python <script>.py -h for more information'
+        print('Use this script with the parameter e.g.:')
+        print('python <script>.py -i <DC>')
+        print('python <script>.py -h for more information')
         sys.exit()
     for opt, arg in opts:
         if opt == '-h':
-            print 'Use this script with inventory parameter'
+            print('Use this script with inventory parameter')
             print(' -i myvmware - for MyVMware lab ')
             sys.exit()
         elif opt in ("-i"):
@@ -68,9 +68,9 @@ def seldc(argv):
                 print('Only these inventories are valid: ', getiventories(mypath))
                 sys.exit()
     if not(opts):
-        print 'Use this script with the parameter e.g.:'
-        print 'python <script>.py -i <DC>'
-        print 'python <script>.py -h for more information'
+        print('Use this script with the parameter e.g.:')
+        print('python <script>.py -i <DC>')
+        print('python <script>.py -h for more information')
         sys.exit()
     return inp
 
