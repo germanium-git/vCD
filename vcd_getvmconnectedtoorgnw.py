@@ -19,13 +19,12 @@ from pprint import pprint
 # Select the vCD to be modified
 #inputs = 'inputs/vcd_' + seldc(sys.argv[1:]) + '.yml'
 
-
 inputs = 'inputs/vcd_lpr.yml'
 
 
 # Load vCD credentials ------------------------------------------------------------------
-#cred = credentials(inputs)
-cred = ('test-portal.vmware.onecloud.tieto.com', 'administrator@system', 'P4ssw0rd!!1234')
+cred = credentials(inputs)
+
 
 myvcd = vCD(*cred)
 myvcd.gettoken()
