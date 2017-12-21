@@ -135,14 +135,14 @@ while new_vdcnet == 'None' or new_vdcnet not in vdcnets:
         sys.exit(1)
 
 
-# Check that all VMs are connected to the Old Network -----------------------------------
+# Check that VMs are connected to the Old Network ----------------------------------------
 
 incompl_VMs = []
+vm_compliant = False
 for vm in VMs_w_ip:
-    vm_compliant = False
-    for key in VMs_w_ip[vm].keys():
+    for key in vm.keys():
         if key.startswith("Network adapter"):
-            if VMs_w_ip[vm][key]['org_nw'] == old_vdcnet:
+            if VMs_w_ip[vm][key] == old_vdcnet:
                 vm_compliant = True
     if not vm_compliant:
         incompl_VMs.append(vm)
@@ -150,7 +150,7 @@ for vm in VMs_w_ip:
 if len(incompl_VMs) > 0:
     cprint("\nThese VMs aren't assigned to the Org NW %s" % old_vdcnet, 'red')
     pprint(incompl_VMs)
-    cprint("\nCan't proceed, exiting the script", 'red')
+    cprint("\nCan't proceed, existing the script %s" % old_vdcnet, 'red')
     sys.exit(1)
 
 
