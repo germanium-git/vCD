@@ -520,8 +520,6 @@ class vCD:
         :return:    False or True if network is present in the vApp
         """
 
-        ns = {'vcloud': 'http://www.vmware.com/vcloud/v1.5'}
-
         present = False
         try:
             vdc_list = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp + '/networkConfigSection',
@@ -530,10 +528,7 @@ class vCD:
 
             root = ET.fromstring(vdc_list.text)
             for child in root:
-                #print (child.tag, child.attrib)
                 if re.search('NetworkConfig', child.tag):
-                    #print('\n')
-                    #print (child.tag, child.attrib)
                     if child.attrib['networkName'] == orgnw:
                         present = True
 
@@ -662,4 +657,54 @@ class vCD:
         return vcenter
 
 
+    def vapp_add_network(self, vapp_id, cfg):
+        """
+        :param:
+        :return:
+        """
+        self.headers.update({'Content-Type': 'application/vnd.vmware.vcloud.networkConfigSection+xml'})
+
+        try:
+            r = requests.put('https://' + self.vcd_ip + '/api/vApp/' + vapp_id + '/networkConfigSection', data=cfg,
+                             verify=False, headers=self.headers)
+
+            print(r)
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+
+
+    def vapp_get_networks(self, vapp_id):
+        """
+        :param:     vApp-id
+        :return:    Get Current networkConfigSection
+        """
+
+        try:
+            nw_config = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp + '/networkConfigSection',
+                             verify=False, headers=self.headers)
+
+
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return nw_config.text
 
