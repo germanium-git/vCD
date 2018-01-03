@@ -43,7 +43,7 @@ org = 'None'
 failure = 0
 print('\n')
 while org == 'None' or org not in orgs:
-    org = input("Choose an existing organization: ")
+    org = raw_input("Choose an existing organization: ")
     failure += 1
     if failure > 3:
         print('Too many failures')
@@ -106,7 +106,7 @@ print(orgnets.keys())
 old_vdcnet = 'None'
 failure = 0
 while old_vdcnet == 'None' or old_vdcnet not in orgnets:
-    old_vdcnet = input("Choose the existing Org Network to be switched onto new Org Network: ")
+    old_vdcnet = raw_input("Choose the existing Org Network to be switched onto new Org Network: ")
     failure += 1
     if failure > 3:
         print('Too many failures')
@@ -118,7 +118,7 @@ while old_vdcnet == 'None' or old_vdcnet not in orgnets:
 new_vdcnet = 'None'
 failure = 0
 while new_vdcnet == 'None' or new_vdcnet not in orgnets:
-    new_vdcnet = input("Choose the new Org Network to be switched to: ")
+    new_vdcnet = raw_input("Choose the new Org Network to be switched to: ")
     failure += 1
     if failure > 3:
         print('Too many failures')

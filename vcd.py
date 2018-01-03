@@ -600,48 +600,21 @@ class vCD:
             for child in root:
                 if child.tag == '{http://www.vmware.com/vcloud/v1.5}Item':
                     for resource in child.findall('./rasd:ElementName', ns):
-                        nw_adapter = resource.text
+                        nw_adapter = resource.text.split(' ')[-1]
                     for resource in child.findall('./rasd:Address', ns):
                         mac = resource.text
                     for resource in child.findall('./rasd:Connection', ns):
                         ip_addr = resource.attrib['{http://www.vmware.com/vcloud/v1.5}ipAddress']
                         org_nw = resource.text
+                        primary_nw = resource.attrib['{http://www.vmware.com/vcloud/v1.5}primaryNetworkConnection']
+                    for resource in child.findall('./rasd:InstanceID', ns):
+                        instance_id = resource.text
+                    for resource in child.findall('./rasd:Address', ns):
+                        mac = resource.text
 
-                    nw_adapters.update({nw_adapter: {'mac': mac, 'ip_addr': ip_addr, 'org_nw': org_nw}})
-
-        except requests.exceptions.Timeout as e:
-            print('connect - Timeout error: {}'.format(e))
-        except requests.exceptions.HTTPError as e:
-            print('connect - HTTP error: {}'.format(e))
-        except requests.exceptions.ConnectionError as e:
-            print('connect - Connection error: {}'.format(e))
-        except requests.exceptions.TooManyRedirects as e:
-            print('connect - TooManyRedirects error: {}'.format(e))
-        except (ValueError, KeyError, TypeError) as e:
-            print('connect - JSON format error: {}'.format(e))
-
-        return nw_adapters
-
-
-
-    def getvm(self, vim):
-        """
-        :param:
-        :return:
-        """
-        vcenter = {}
-        try:
-            r = requests.get('https://' + self.vcd_ip + '/api/admin/extension/vimServer/' + vim + '/vmsList',
-                             verify=False, headers=self.headers)
-
-            root = ET.fromstring(vimServerReferences.text)
-            for child in root:
-                #print (child.tag, child.attrib)
-                if re.search('VimServerReference', child.tag):
-                    if re.search('api/admin/extension/vimServer/', child.attrib['href']):
-                        vcenter['VimServerReference'] = child.attrib['href'].split('/')[-1]
-                        vcenter['name'] = child.attrib['name']
-
+                    nw_adapters.update({nw_adapter: {'mac': mac, 'ip_addr': ip_addr,
+                                                     'org_nw': org_nw, 'instance_id': instance_id,
+                                                     'primary_nw': primary_nw}})
 
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
@@ -654,7 +627,8 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
-        return vcenter
+        return {'adapters': nw_adapters}
+
 
 
     def vapp_add_network(self, vapp_id, cfg):
@@ -690,10 +664,8 @@ class vCD:
         """
 
         try:
-            nw_config = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp + '/networkConfigSection',
+            nw_config = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vapp_id + '/networkConfigSection',
                              verify=False, headers=self.headers)
-
-
 
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
@@ -708,3 +680,52 @@ class vCD:
 
         return nw_config.text
 
+
+
+    def vm_get_networkcards(self, vm_id):
+        """
+        :param:
+        :return:    Current configuration of Network cards of VMs
+        """
+
+        try:
+            netwcards = requests.get('https://' + self.vcd_ip + '/api/vApp/' + vm_id + '/virtualHardwareSection/networkCards',
+                             verify=False, headers=self.headers)
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return netwcards.text
+
+
+
+    def vm_update_nwconnectsection(self, vm_id, cfg):
+        """
+        :param:
+        :return:    Update Network Connection Section of a VM
+        """
+        self.headers.update({'Content-Type': 'application/vnd.vmware.vcloud.networkConnectionSection+xml'})
+
+        try:
+            r = requests.put('https://' + self.vcd_ip + '/api/vApp/' + vm_id + '/networkConnectionSection', data=cfg,
+                             verify=False, headers=self.headers)
+            print(r)
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))

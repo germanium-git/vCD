@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NetworkConnectionSection
+   type="application/vnd.vmware.vcloud.networkConnectionSection+xml"
+   xmlns="http://www.vmware.com/vcloud/v1.5"
+   xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1">
+   <ovf:Info></ovf:Info>
+   <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>
+{% for adapter in adapters %}<NetworkConnection network="{{ adapters[adapter]['org_nw'] }}">
+      <NetworkConnectionIndex>{{ adapter }}</NetworkConnectionIndex>
+      <IpAddress>{{ adapters[adapter]['ip_addr'] }}</IpAddress>
+      <IsConnected>true</IsConnected>
+      <MACAddress>{{ adapters[adapter]['mac'] }}</MACAddress>
+      <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
+</NetworkConnection>
+{% endfor %}</NetworkConnectionSection>
