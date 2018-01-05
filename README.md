@@ -2,17 +2,19 @@
 --------
 
 There're some Python scripts simplifying the operations tasks on VMware vCloud Director.
-* Create an external network
-* Create Edge
-* Create VDC Network
+* Create an External Network
+* Create an Edge
+* Create a VDC Network
+* Switch VM's vnic to different Org Network 
 
 
 ### Dependencies
-These are the python modules needed to run the scrips. Install those by using pip
+The scripts work with python 2.7. These are the python modules needed to run the scrips. Install those by using pip
 * jinja2
 * yaml
 * reqests
 * termcolor
+* xmltodict
 
 
 ### How to use this project
@@ -32,28 +34,28 @@ It provides an information about the edges configured in vCD.
 ##### vcd_getextnetworks.py
 
 ```sh
-$ ./cd_getextnetworks.py -i myvmware
+$ ./cd_getextnetworks.py -i mylab
 ```
 It provides an information about all external networks configured in vCD.
 
 ##### vcd_getvdcnetworks.py
 
 ```sh.
-$ ./vcd_getvdcnetworks.py -i myvmware
+$ ./vcd_getvdcnetworks.py -i mylab
 ```
 It provides an information about all vDC networks from all organizations configured in vCD.
 
 ##### vcd_getvimServer.py
 
 ```sh.
-$ ./vcd_getvimServer.py -i myvmware
+$ ./vcd_getvimServer.py -i mylab
 ```
 This is an auxiliary script to get vimServer id by which the vCenter is referenced to. This information is needed to carry out other REST API calls.
 
 ##### vcd_cfgedge.py
 
 ```sh.
-$ ./vcd_cfgedge.py -i myvmware
+$ ./vcd_cfgedge.py -i mylab
 ```
 It will deploy new edge based on the information stored in inputs/edge_mylab.yml. The organization, vDC and the external network are chosen within the input dialog.
 
@@ -61,7 +63,7 @@ It will deploy new edge based on the information stored in inputs/edge_mylab.yml
 ##### vcd_cfgextnetwork.py
 
 ```sh.
-$ ./vcd_cfgextnetwork.py -i myvmware
+$ ./vcd_cfgextnetwork.py -i mylab
 ```
 It will deploy new external network on the information stored in inputs/extnet_mylab.yml. The ID of the distributed port group the external network will reference to must be known before executing the script.
 The dvportgroup-id may be identified by using the scripts from https://github.com/germanium-git/pyVMware
@@ -70,13 +72,19 @@ The dvportgroup-id may be identified by using the scripts from https://github.co
 ##### vcd_cfgvdcnetwork.py
 
 ```sh.
-$ ./vcd_cfgvdcnetwork.py -i myvmware
+$ ./vcd_cfgvdcnetwork.py -i mylab
 ```
 It will deploy new vDC network as a routed network connected to an existing edge. The parameters are stored in inputs/vdcnet_mylab.yml.
 The organization, vDC and the edge are chosen within the input dialog.
 
 
 
+##### vcd_orgnetswitchover.py
+
+```sh.
+$ ./vcd_orgnetswitchover.py -i mylab
+```
+It may be helpful when migrating VMs. The script will switch all the VMs connected to an Org Network the different one. It can be used for switching the NICs between a distributed port groups associated with a VLAN and logical a switch associated with a VXLAN.
 
 
 
