@@ -3,3 +3,5 @@ PyYAML>=3.10
 requests>=2.18.4
 termcolor
 xmltodict
+prettytable
+pyprind

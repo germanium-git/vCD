@@ -493,7 +493,7 @@ class vCD:
             vdc_list = requests.get('https://' + self.vcd_ip + '/api/vdc/' + vdc,
                              verify=False, headers=self.headers)
 
-            print(vdc + ' ----------------------------------------')
+            #print(vdc + ' ----------------------------------------')
             root = ET.fromstring(vdc_list.text)
             for resource in root.findall('vcloud:ResourceEntities/', ns):
                 if resource.attrib['type'] == 'application/vnd.vmware.vcloud.vApp+xml':
@@ -644,6 +644,14 @@ class vCD:
 
             print(r)
 
+            root = ET.fromstring(r.text)
+            print(root.attrib['operation'])
+            print(root.attrib['startTime'])
+            print(root.attrib['status'])
+            #print(root.attrib['id'])
+            task_href = root.attrib['href'].split('/')[-1]
+            #print(task_href)
+
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
         except requests.exceptions.HTTPError as e:
@@ -655,7 +663,7 @@ class vCD:
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
 
-
+        return task_href
 
     def vapp_get_networks(self, vapp_id):
         """
@@ -706,7 +714,6 @@ class vCD:
         return netwcards.text
 
 
-
     def vm_update_nwconnectsection(self, vm_id, cfg):
         """
         :param:
@@ -719,6 +726,30 @@ class vCD:
                              verify=False, headers=self.headers)
             print(r)
 
+            """
+            ns = {'vcloud': 'http: //www.vmware.com/vcloud/v1.5',
+                  'ovf': 'http://schemas.dmtf.org/ovf/envelope/1',
+                  'vssd': 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData',
+                  'common': 'http://schemas.dmtf.org/wbem/wscim/1/common',
+                  'rasd': 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData',
+                  'vmw': 'http://www.vmware.com/schema/ovf',
+                  'vmext': 'http://www.vmware.com/vcloud/extension/v1.5',
+                  'ovfenv': 'http://schemas.dmtf.org/ovf/environment/1',
+                  'ns9': 'http://www.vmware.com/vcloud/networkservice/1.0',
+                  'ns10': 'http://www.vmware.com/vcloud/networkservice/common/1.0',
+                  'ns11': 'http://www.vmware.com/vcloud/networkservice/ipam/1.0',
+                  'ns12': 'http://www.vmware.com/vcloud/versions'
+                  }
+            """
+
+            root = ET.fromstring(r.text)
+            print(root.attrib['operation'])
+            print(root.attrib['startTime'])
+            print(root.attrib['status'])
+            print(root.attrib['id'])
+            task_href = root.attrib['href'].split('/')[-1]
+            print(task_href)
+
         except requests.exceptions.Timeout as e:
             print('connect - Timeout error: {}'.format(e))
         except requests.exceptions.HTTPError as e:
@@ -729,3 +760,34 @@ class vCD:
             print('connect - TooManyRedirects error: {}'.format(e))
         except (ValueError, KeyError, TypeError) as e:
             print('connect - JSON format error: {}'.format(e))
+            
+        return task_href
+
+
+    def get_task_status(self, task_href):
+        """
+        :param:
+        :return:    Status of the task
+        """
+        self.headers.update({'Content-Type': 'application/vnd.vmware.vcloud.task+xml'})
+
+        try:
+            r = requests.get('https://' + self.vcd_ip + '/api/task/' + task_href,
+                             verify=False, headers=self.headers)
+            print(r)
+            root = ET.fromstring(r.text)
+            print(root.attrib['status'])
+            task_status = root.attrib['status']
+
+        except requests.exceptions.Timeout as e:
+            print('connect - Timeout error: {}'.format(e))
+        except requests.exceptions.HTTPError as e:
+            print('connect - HTTP error: {}'.format(e))
+        except requests.exceptions.ConnectionError as e:
+            print('connect - Connection error: {}'.format(e))
+        except requests.exceptions.TooManyRedirects as e:
+            print('connect - TooManyRedirects error: {}'.format(e))
+        except (ValueError, KeyError, TypeError) as e:
+            print('connect - JSON format error: {}'.format(e))
+
+        return task_status
