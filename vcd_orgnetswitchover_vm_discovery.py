@@ -11,7 +11,7 @@
 
                     Python 2.7
 
-   Date:            2018-06-26
+   Date:            2018-08-13
 =================================================================================================================
 """
 
@@ -27,6 +27,7 @@ from prettytable import PrettyTable
 
 import time
 import pyprind
+import datetime
 
 
 # Select the vCD to be modified
@@ -168,6 +169,7 @@ if agree != "Y" and agree != "y":
     print("Script execution canceled")
     sys.exit(1)
 
+print(datetime.datetime.now())
 
 # Identify the vApps the compliant VMs are member of ------------------------------------
 app_list = []
@@ -215,6 +217,8 @@ if agree != "Y" and agree != "y":
     print("Script execution canceled")
     sys.exit(1)
 else:
+    print(datetime.datetime.now())
+    tasks_list = []
     n = len(compl_VMs.keys())
     bar = pyprind.ProgBar(n, monitor=True, bar_char='#')
     for vm in compl_VMs:
@@ -241,8 +245,10 @@ else:
         # Update current networkCards section with new Org Network
         task_href = myvcd.vm_update_nwconnectsection(compl_VMs[vm]['uuid'], xml_body)
 
+        tasks_list.append(task_href)
+
         i = 0
-        while myvcd.get_task_status(task_href) != 'success':
+        while myvcd.get_task_status(task_href) != 'running':
             time.sleep(0.2)
             i += 1
             print(i)
@@ -252,6 +258,18 @@ else:
     # Print the statistics how long the iteration took
     print(bar)
 
+    print(datetime.datetime.now())
+    print("\nWaiting for the last VM to be switched over to the new Org Network")
+    for task in tasks_list:
+        print('Checking task {}'.format(task))
+        while myvcd.get_task_status(task_href) != 'success':
+            time.sleep(0.2)
+            i += 1
+            print(i)
+            if i > 50:
+                break
+
+    print(datetime.datetime.now())
     # Print the list of VMs and their IP addresses --------------------------------------------
     cprint('\nIdentifying the IP addresses after the switchover', 'yellow')
     VMs_w_ip_afterswithover = {}
